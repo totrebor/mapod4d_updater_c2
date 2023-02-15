@@ -22,13 +22,22 @@ const M4DVERSION = {
 	'v1': 2,
 	'v2': 0,
 	'v3': 0,
-	'v4': 0
+	'v4': 3,
+	'p': "a",
+	'godot': {
+		'v1': 4,
+		'v2': 0,
+		'v3': 0,
+		'v4': 1,
+		'p': "rc"
+	}
 }
 const M4DNAME = "updater"
 
 const WK_PATH = 'wk'
-const UPDATES_PATH = WK_PATH + '/updates/'
+const UPDATES_PATH = WK_PATH + '/updates'
 const UPDATER = "updater"
+const LAUNCHER = "mapod4d_launcher"
 const UPDATER_PATH = WK_PATH + "/" + UPDATER
 const MULTIVSVR = "https://sv001.mapod4d.it"
 
@@ -82,7 +91,7 @@ func _ready():
 		if updater_ready == true:
 			# print("UPDATE")
 			await get_tree().create_timer(1).timeout
-			_update_launcher()
+			_do_launcher_update()
 		else:
 			get_tree().quit()
 	else:
@@ -120,16 +129,21 @@ func _write_version():
 			file.flush()
 
 
-func _update_launcher():
+func _do_launcher_update():
 	if _base_path != null:
 		var dir = DirAccess.open(_base_path)
 		if dir != null:
-			var dw_launcher_path = UPDATES_PATH + "launcher"
+			var dw_launcher_path = UPDATES_PATH + "/" + "launcher"
 			# print(dw_launcher_path)
 			if dir.file_exists(dw_launcher_path):
 				var from_file_name = dw_launcher_path
-				var to_file_name = "mapod4d_launcher" + _exe_ext
+				var to_file_name = LAUNCHER + _exe_ext
 				var _error = dir.rename(from_file_name, to_file_name)
+				if dir.file_exists(LAUNCHER + _exe_ext):
+					OS.create_process(
+						_base_path + "/" + LAUNCHER + _exe_ext, 
+						[])
+					get_tree().quit()
 				# print(_error)
 		else:
 			print("%s not found" % _base_path)

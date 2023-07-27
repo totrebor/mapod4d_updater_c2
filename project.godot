@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Mapod 4d Updater C 2"
 run/main_scene="res://updater.tscn"
-config/features=PackedStringArray("4.0", "Forward Plus")
+config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
@@ -24,3 +24,7 @@ window/size/always_on_top=true
 [editor]
 
 run/main_run_args="++ -m4dupdate"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/localization.en.translation", "res://localization/localization.it.translation")

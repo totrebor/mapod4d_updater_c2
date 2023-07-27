@@ -72,28 +72,10 @@ func _ready():
 			pass
 		"Web":
 			pass
-	var updater_ready = false
-	if OS.has_feature('editor'):
-		_base_path = 'test/wk'
-	if OS.has_feature('standalone'):
-		_base_path = OS.get_executable_path().get_base_dir()
-	# print(_base_path)
-	var slice_list = _base_path.split("/")
-	if slice_list.size() > 1:
-		# print(slice_list)
-		slice_list.remove_at(slice_list.size()-1)
-		_base_path = "/".join(slice_list)
-		# print(_base_path)
-		var args = OS.get_cmdline_user_args()
-		if args.size() > 0:
-			if args[0] == "-m4dupdate":
-				updater_ready = true
-		if updater_ready == true:
-			# print("UPDATE")
-			await get_tree().create_timer(1).timeout
-			_do_launcher_update()
-		else:
-			get_tree().quit()
+	var updater_ready = _verify_starting_condiction()
+
+	if updater_ready == true:
+		_do_launcher_update()
 	else:
 		get_tree().quit()
 
@@ -114,6 +96,37 @@ func _process(_delta):
 # ----- public methods
 
 # ----- private methods
+## verify ready conditctions
+func _verify_starting_condiction():
+	var ret_val = true
+
+	if OS.has_feature('editor'):
+		_base_path = 'test/wk'
+	elif OS.has_feature('standalone'):
+		_base_path = OS.get_executable_path().get_base_dir()
+	else:
+		## error message
+		ret_val = false
+
+	if ret_val == true:
+		var slice_list = _base_path.split("/")
+		if slice_list.size() > 1:
+			slice_list.remove_at(slice_list.size()-1)
+			_base_path = "/".join(slice_list)
+			# print(_base_path)
+		else:
+			## error message
+			ret_val = false
+
+	if ret_val == true:
+		var args = OS.get_cmdline_user_args()
+		if args.size() > 0:
+			if args[0] != "-m4dupdate":
+				## error message
+				ret_val = false
+
+	return ret_val
+
 
 func _write_version():
 		# print(M4DVERSION)

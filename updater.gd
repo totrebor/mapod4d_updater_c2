@@ -26,10 +26,10 @@ const M4DVERSION = {
 	'p': "a",
 	'godot': {
 		'v1': 4,
-		'v2': 0,
-		'v3': 0,
-		'v4': 1,
-		'p': "rc"
+		'v2': 1,
+		'v3': 1,
+		'v4': 1, # dev = 0, rc = 1, stable = 2
+		'p': "stable"
 	}
 }
 const M4DNAME = "updater"

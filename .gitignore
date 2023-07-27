@@ -18,7 +18,8 @@ data_*/
 !/mapod4d_multiverse/readme.md
 /bin/html5/*
 !/bin/html5/readme.md
-/bin/win64/*
+/bin/win/*
+!/bin/win/tag.txt
 !/bin/win64/readme.md
 /bin/linux/*
 !/bin/linux/readme.md
